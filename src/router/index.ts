@@ -16,34 +16,49 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/traveler',
-      name: 'travelers',
-      component: TravelerListView
-    },
-    {
-      path: '/traveler/:id(\\d+)',
-      name: 'travelerDetails',
-      component: TravelerDetailsView
+      path: '/travelers',
+      children: [
+        {
+          path: '',
+          name: 'travelers',
+          component: TravelerListView,
+        },
+        {
+          path: ':id(\\d+)',
+          name: 'travelerDetails',
+          component: TravelerDetailsView
+        },
+      ]
     },
     {
       path: '/pilot',
-      name: 'pilots',
-      component: PilotListView
-    },
-    {
-      path: '/pilot/:id(\\d+)',
-      name: 'pilotDetails',
-      component: PilotDetailsView
+      children: [
+        {
+          path: '',
+          name: 'pilots',
+          component: PilotListView,
+        },
+        {
+          path: ':id(\\d+)',
+          name: 'pilotDetails',
+          component: PilotDetailsView
+        }
+      ]
     },
     {
       path: '/ship',
-      name: 'ships',
-      component: ShipListView
-    },
-    {
-      path: '/ship/:slug(\\w+)',
-      name: 'shipDetails',
-      component: ShipDetailsView
+      children: [
+        {
+          path: '',
+          name: 'ships',
+          component: ShipListView,
+        },
+        {
+          path: ':slug(\\w+)',
+          name: 'shipDetails',
+          component: ShipDetailsView
+        }
+      ]
     },
     {
       path: '/about',
