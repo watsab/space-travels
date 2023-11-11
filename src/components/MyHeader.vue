@@ -40,7 +40,6 @@ header {
   justify-content: space-between;
   padding: 0 50px;
 
-
   & .nav-wrapper {
     position: relative;
 

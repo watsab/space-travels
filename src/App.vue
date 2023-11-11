@@ -26,6 +26,14 @@ import MyHeader from '@/components/MyHeader.vue';
 
 const menuItems = [
   {
+    label: 'Nos pilotes',
+    route: { name: 'pilots' }
+  },
+  {
+    label: 'Nos vaisseaux',
+    route: { name: 'ships' }
+  },
+  {
     label: 'A propos',
     route: { name: 'about' }
   }
@@ -55,7 +63,7 @@ const menuItems = [
 
 .container {
   height: 100vh;
-  padding-top: 100px;
+  padding-top: 120px;
   overflow: auto;
 }
 </style>

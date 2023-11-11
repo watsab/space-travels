@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "firstname": "Léon",
+    "lastname": "Lind",
+    "picturePath": "eMW520zs.jpeg"
+  },
+  {
+    "id": 2,
+    "firstname": "Gilles",
+    "lastname": "DeLaTourette",
+    "picturePath": "tv-QTyW8.jpeg"
+  },
+  {
+    "id": 3,
+    "firstname": "Belinda",
+    "lastname": "Hawkins",
+    "picturePath": "HuflHvyC.jpeg"
+  },
+  {
+    "id": 4,
+    "firstname": "Danielle",
+    "lastname": "Vanzant",
+    "picturePath": "ERE4Nsko.jpeg"
+  }
+]

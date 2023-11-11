@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "firstname": "Simmons",
+    "lastname": "Jamie",
+    "birthdate": "1963-05-17"
+  },
+  {
+    "id": 2,
+    "firstname": "Luis",
+    "lastname": "Mcdonalid",
+    "birthdate": "1986-04-11"
+  },
+  {
+    "id": 3,
+    "firstname": "Gregory ",
+    "lastname": "Black",
+    "birthdate": "1983-12-15"
+  },
+  {
+    "id": 4,
+    "firstname": "Sue",
+    "lastname": "Howell",
+    "birthdate": "1980-08-08"
+  },
+  {
+    "id": 5,
+    "firstname": "Mike",
+    "lastname": "Handerson",
+    "birthdate": "1976-06-28"
+  },
+  {
+    "id": 6,
+    "firstname": "Amelia",
+    "lastname": "Rogers",
+    "birthdate": "1951-02-12"
+  },
+  {
+    "id": 7,
+    "firstname": "Terri",
+    "lastname": "Mccoy",
+    "birthdate": "1992-10-06"
+  },
+  {
+    "id": 8,
+    "firstname": "George",
+    "lastname": "Fowler",
+    "birthdate": "1996-09-03"
+  }
+]
