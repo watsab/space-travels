@@ -1,11 +1,12 @@
 <template>
-  <button v-bind="$attrs" @click="onClick"><slot/></button>
+  <button v-bind="$attrs" @click="onClick">
+    <slot/>
+  </button>
 </template>
 
-<script setup>
-  const emit = defineEmits(['click']);
+<script setup lang="ts">
+const emit = defineEmits<{
+  'click': [e: MouseEvent] }>()
 
-  const onClick = (e) => {
-    emit('click', e);
-  }
+const onClick = (e: MouseEvent) => emit('click', e);
 </script>

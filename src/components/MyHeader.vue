@@ -4,8 +4,8 @@
 
     <slot name="title"></slot>
 
-    <div class="nav-wrapper" v-click-outside="() => showNav = false">
-      <button @click="showNav = !showNav">Menu</button>
+  <div class="nav-wrapper" v-click-outside="() => showNav = false">
+    <MyButton @click="showNav = !showNav">Menu</MyButton>
 
       <nav v-show="showNav" class="nav">
         <ul>
@@ -19,17 +19,17 @@
   </header>
 </template>
 
-<script setup>
-import { ref } from "vue";
+<script setup lang="ts">
+  import { type Ref, ref } from 'vue';
+  import MyButton from '@/components/MyButton.vue';
 
-defineProps({
-  menuItems: {
-    type: Array,
-    default: () => []
+  interface Props {
+    menuItems: any[];
   }
-})
 
-const showNav = ref(false);
+  defineProps<Props>()
+
+  const showNav: Ref<boolean> = ref(false);
 </script>
 
 <style scoped>
@@ -58,6 +58,5 @@ header {
       }
     }
   }
-
 }
 </style>
