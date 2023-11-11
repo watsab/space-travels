@@ -3,5 +3,5 @@ import type { Gender } from '@/models/Gender';
 
 export interface Traveler extends Person {
   birthdate: Date;
-  gender: Gender;
+  gender?: Gender;
 }
