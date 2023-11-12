@@ -3,7 +3,7 @@
     <router-link :to="{ name: 'pilots'}">Voir tous les pilotes</router-link>
   </div>
 
-  <MyCard>
+  <MyCard v-if="pilot">
     <template v-slot:header>
       <h2>Détails du pilote - {{ pilot.firstname }} {{ pilot.lastname }}</h2>
     </template>
@@ -21,16 +21,19 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 import { usePilotsManager } from '@/composable/usePilotsManager';
-import type { Pilot } from '@/models/Pilot';
 import MyCard from '@/components/MyCard.vue';
 
 const route = useRoute();
-
 const { getById } = usePilotsManager()
-const pilot: Pilot = getById(Number.parseInt(route.params.id as string, 10)) as Pilot;
+const pilot = getById(Number.parseInt(route.params.id as string, 10));
+
+if (!pilot) {
+  const { push } = useRouter();
+  push({ name: 'notFound' });
+}
 </script>
 
 <style scoped>
