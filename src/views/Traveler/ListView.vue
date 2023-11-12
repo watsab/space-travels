@@ -9,7 +9,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr v-for="traveler in store.travelers" :key="traveler.id">
+    <tr v-for="traveler in travelers" :key="traveler.id">
       <td>
         {{ traveler.name }}
       </td>
@@ -31,29 +31,33 @@
 </template>
 
 <script setup lang="ts">
-import { useTravelersManager } from '@/composable/useTravelersManager';
-import { inject, watch } from 'vue';
+import { computed, type ComputedRef, watch } from 'vue';
 import { onBeforeRouteLeave, useRouter } from 'vue-router';
 import nProgress from 'nprogress';
+import { useStore } from 'vuex';
+import type { Traveler } from '@/models/Traveler';
 
 interface Props {
   page: number;
 }
 const props = defineProps<Props>();
-const { getAll } = useTravelersManager();
 
-const store = inject('store');
+const store = useStore();
 const { push } = useRouter();
 
 watch(() => props.page, async (value) => {
   nProgress.start();
   try {
-    store.travelers = await getAll(value);
+    await store.dispatch('travelers/fetchTravelers', value);
   } catch (error) {
     await push({ name: 'networkError' });
   } finally {
     nProgress.done();
   }
+});
+
+const travelers: ComputedRef<Traveler[]> = computed(() => {
+  return store.state.travelers.items;
 })
 
 onBeforeRouteLeave(() => {

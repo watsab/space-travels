@@ -9,9 +9,7 @@ import ShipDetailsView from '@/views/Ship/DetailsView.vue';
 import NotFound from '@/components/NotFound.vue';
 import NetworkError from '@/components/NetworkError.vue';
 import nProgress from 'nprogress';
-import { getAll } from '@/services/travelersManager';
 import store from '@/store';
-import type { Traveler } from '@/models/Traveler';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,13 +35,10 @@ const router = createRouter({
     {
       path: '/travelers',
       beforeEnter: async (to) => {
-        let travelers: Traveler[] = [];
         try {
-          travelers = await getAll(parseInt(to.query.page) || 1);
+          await store.dispatch('travelers/fetchTravelers', parseInt(to.query.page as string));
         } catch (error) {
           return ({ name: 'networkError' });
-        } finally {
-          store.travelers = travelers;
         }
       },
       children: [
