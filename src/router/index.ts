@@ -32,6 +32,7 @@ const router = createRouter({
           path: '',
           name: 'travelers',
           component: TravelerListView,
+          props: (route) => ({page: Number.parseInt(route.query.page as string, 10) || 1})
         },
         {
           path: ':id(\\d+)',
