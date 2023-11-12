@@ -34,6 +34,7 @@
 import { useTravelersManager } from '@/composable/useTravelersManager';
 import { type Ref, ref, watchEffect } from 'vue';
 import type { Traveler } from '@/models/Traveler';
+import { useRouter } from 'vue-router';
 
 interface Props {
   page: number;
@@ -43,7 +44,12 @@ const travelers: Ref<Traveler[]> = ref([]);
 
 const { getAll } = useTravelersManager();
 watchEffect(async () => {
-  travelers.value = await getAll(props.page);
+  try {
+    travelers.value = await getAll(props.page);
+  } catch (error) {
+    const { push } = useRouter();
+    await push({ name: 'networkError' });
+  }
 })
 
 </script>
