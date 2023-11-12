@@ -1,7 +1,8 @@
-import type { Person } from '@/models/Person';
-import type { Gender } from '@/models/Gender';
+import type { Address } from '@/models/Address';
 
-export interface Traveler extends Person {
-  birthdate: Date;
-  gender?: Gender;
+export interface Traveler {
+  id: number;
+  name: string;
+  email: string;
+  address: Address
 }
