@@ -6,6 +6,8 @@ import PilotListView from '@/views/Pilot/ListView.vue';
 import PilotDetailsView from '@/views/Pilot/DetailsView.vue';
 import ShipListView from '@/views/Ship/ListView.vue';
 import ShipDetailsView from '@/views/Ship/DetailsView.vue';
+import NotFound from '@/components/NotFound.vue';
+import NetworkError from '@/components/NetworkError.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -83,7 +85,21 @@ const router = createRouter({
       path: '/about',
       name: 'about',
       component: () => import('../views/AboutView.vue')
-    }
+    },
+    {
+      path: '/404',
+      name: 'notFound',
+      component: NotFound
+    },
+    {
+      path: '/:notFound(.*)',
+      component: NotFound
+    },
+    {
+      path: '/network-error',
+      name: 'networkError',
+      component: NetworkError
+    },
   ]
 })
 
