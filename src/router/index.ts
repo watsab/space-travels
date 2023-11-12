@@ -16,6 +16,16 @@ const router = createRouter({
       component: HomeView
     },
     {
+      path: '/traveler',
+      redirect: { name: 'travelers'},
+      children: [
+        {
+          path: ':id(\\d+)',
+          redirect: ({ name: 'travelerDetails' })
+        },
+      ]
+    },
+    {
       path: '/travelers',
       children: [
         {
@@ -31,7 +41,11 @@ const router = createRouter({
       ]
     },
     {
-      path: '/pilot',
+      path: '/pilot/:url(.*)',
+      redirect: (to) => ({ path: `pilots/${to.params.url}`})
+    },
+    {
+      path: '/pilots',
       children: [
         {
           path: '',
@@ -46,7 +60,11 @@ const router = createRouter({
       ]
     },
     {
-      path: '/ship',
+      path: '/ships/:url(.*)',
+      redirect: (to) => ({ path: `ships/${to.params.url}`})
+    },
+    {
+      path: '/ships',
       children: [
         {
           path: '',
