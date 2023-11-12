@@ -9,7 +9,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr v-for="traveler in travelers" :key="traveler.id">
+    <tr v-for="traveler in store.travelers" :key="traveler.id">
       <td>
         {{ traveler.name }}
       </td>
@@ -32,24 +32,32 @@
 
 <script setup lang="ts">
 import { useTravelersManager } from '@/composable/useTravelersManager';
-import { type Ref, ref, watchEffect } from 'vue';
-import type { Traveler } from '@/models/Traveler';
-import { useRouter } from 'vue-router';
+import { inject, watch } from 'vue';
+import { onBeforeRouteLeave, useRouter } from 'vue-router';
+import nProgress from 'nprogress';
 
 interface Props {
   page: number;
 }
 const props = defineProps<Props>();
-const travelers: Ref<Traveler[]> = ref([]);
-
 const { getAll } = useTravelersManager();
-watchEffect(async () => {
+
+const store = inject('store');
+const { push } = useRouter();
+
+watch(() => props.page, async (value) => {
+  nProgress.start();
   try {
-    travelers.value = await getAll(props.page);
+    store.travelers = await getAll(value);
   } catch (error) {
-    const { push } = useRouter();
     await push({ name: 'networkError' });
+  } finally {
+    nProgress.done();
   }
+})
+
+onBeforeRouteLeave(() => {
+  return window.confirm('Vous êtes sur le point de quitter la page. Etes-vous sûr ?')
 })
 
 </script>

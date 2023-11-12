@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, useRouter } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import TravelerListView from '@/views/Traveler/ListView.vue';
 import TravelerDetailsView from '@/views/Traveler/DetailsView.vue';
@@ -8,9 +8,16 @@ import ShipListView from '@/views/Ship/ListView.vue';
 import ShipDetailsView from '@/views/Ship/DetailsView.vue';
 import NotFound from '@/components/NotFound.vue';
 import NetworkError from '@/components/NetworkError.vue';
+import nProgress from 'nprogress';
+import { getAll } from '@/services/travelersManager';
+import store from '@/store';
+import type { Traveler } from '@/models/Traveler';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  scrollBehavior() {
+    return { top: 0 };
+  },
   routes: [
     {
       path: '/',
@@ -29,6 +36,16 @@ const router = createRouter({
     },
     {
       path: '/travelers',
+      beforeEnter: async (to) => {
+        let travelers: Traveler[] = [];
+        try {
+          travelers = await getAll(parseInt(to.query.page) || 1);
+        } catch (error) {
+          return ({ name: 'networkError' });
+        } finally {
+          store.travelers = travelers;
+        }
+      },
       children: [
         {
           path: '',
@@ -63,7 +80,7 @@ const router = createRouter({
       ]
     },
     {
-      path: '/ships/:url(.*)',
+      path: '/ship/:url(.*)',
       redirect: (to) => ({ path: `ships/${to.params.url}`})
     },
     {
@@ -75,7 +92,7 @@ const router = createRouter({
           component: ShipListView,
         },
         {
-          path: ':slug(\\w+)',
+          path: ':slug([a-z-]+)',
           name: 'shipDetails',
           component: ShipDetailsView
         }
@@ -101,6 +118,18 @@ const router = createRouter({
       component: NetworkError
     },
   ]
+});
+
+router.beforeEach(() => {
+  nProgress.start();
+
+  return true;
+});
+
+router.afterEach(() => {
+  nProgress.done();
+
+  return true;
 })
 
 export default router
