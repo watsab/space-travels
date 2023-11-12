@@ -3,10 +3,18 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import { useTravelersManager } from '@/composable/useTravelersManager';
 
 const route = useRoute();
-const travelerId = route.params.id;
+
+const { getById } = useTravelersManager();
+const traveler = getById(Number.parseInt(route.params.id as string, 10));
+
+if (!traveler) {
+  const { push } = useRouter();
+  push({ name: 'notFound' });
+}
 
 </script>
 

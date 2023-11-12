@@ -5,7 +5,7 @@
   </div>
 
 
-  <MyCard>
+  <MyCard v-if="currentShip">
     <template v-slot:header>
       <h2>Détails du vaisseau - {{ currentShip?.name }}</h2>
     </template>
@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { computed,  type ComputedRef } from 'vue';
 import type { Ship } from '@/models/Ship';
 import { useShipsManager } from '@/composable/useShipsManager';
@@ -27,6 +27,11 @@ const { getBySlug } = useShipsManager();
 const currentShip: ComputedRef<Ship | undefined> = computed(() => {
   return getBySlug(route.params.slug as string)
 })
+
+if (!currentShip) {
+  const { push } = useRouter();
+  push({name: 'notFount'});
+}
 </script>
 
 <style scoped>
