@@ -1,5 +1,5 @@
 <template>
-  <h2>Détails du voyageur - {{ travelerId }}</h2>
+  <h2>Détails du voyageur - {{ traveler.id }}</h2>
 </template>
 
 <script setup lang="ts">
