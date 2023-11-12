@@ -10,7 +10,7 @@
       <th></th>
     </tr>
     </thead>
-    <tbody>
+    <tbody v-if="pilots.length > 0">
     <tr v-for="pilot in pilots" :key="pilot.id">
       <td>
         <img  class="profile-picture" :src="pilot.picturePath" :alt="`${pilot.firstname} ${pilot.lastname}`">
@@ -30,10 +30,17 @@
 </template>
 
 <script setup lang="ts">
-import { usePilotsManager } from '@/composable/usePilotsManager';
-const { getAll } = usePilotsManager();
+import { useStore } from 'vuex';
+import type { ComputedRef } from 'vue';
+import { computed } from 'vue';
+import type Pilots from '@/store/modules/pilots';
 
-const pilots = getAll();
+const store = useStore();
+
+store.dispatch('pilots/fetchPilots');
+const pilots: ComputedRef<Pilots[]> = computed(() => {
+  return store.state.pilots.items;
+});
 </script>
 
 <style scoped>

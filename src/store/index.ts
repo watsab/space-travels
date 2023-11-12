@@ -1,5 +1,16 @@
-import { reactive } from 'vue';
+import { createStore, createLogger } from 'vuex';
+import pilots, { type InitialState as PilotInitialState } from '@/store/modules/pilots';
 
-export default reactive({
-  travelers: [],
-});
+const debug = process.env.NODE_ENV !== 'production'
+
+export interface State {
+  pilots: PilotInitialState;
+}
+
+export default createStore<State>({
+  modules: {
+    pilots,
+  },
+  strict: debug,
+  plugins: debug ? [createLogger()] : []
+})
