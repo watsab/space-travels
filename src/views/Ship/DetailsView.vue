@@ -28,9 +28,9 @@ const currentShip: ComputedRef<Ship | undefined> = computed(() => {
   return getBySlug(route.params.slug as string)
 })
 
-if (!currentShip) {
+if (!currentShip.value) {
   const { push } = useRouter();
-  push({name: 'notFount'});
+  push({ name: 'notFound' });
 }
 </script>
 

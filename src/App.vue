@@ -34,6 +34,10 @@ const menuItems = [
     route: { name: 'ships' }
   },
   {
+    label: 'Nos voyageurs',
+    route: { name: 'travelers' }
+  },
+  {
     label: 'A propos',
     route: { name: 'about' }
   }
