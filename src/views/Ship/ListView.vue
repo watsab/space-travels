@@ -1,6 +1,13 @@
 <template>
   <h2>Liste des vaisseaux</h2>
 
+  <form>
+    <div class="form-group">
+      <label for="search">Recherche un vaisseau :</label>
+      <input id="search" name="search" v-model.trim="searchValue"/>
+    </div>
+  </form>
+
   <table>
     <thead>
     <tr>
@@ -31,27 +38,51 @@
 
 <script setup lang="ts">
 import { useStore } from '@/store';
-import { computed, type ComputedRef } from 'vue';
-import type { Ship } from '@/models/Ship';
-import { useRouter } from 'vue-router';
+import { ref, watch } from 'vue';
 
 const store = useStore();
 
+const searchValue = ref('');
+store.dispatch('ships/fetchShips');
+const ships = ref(store.state.ships.items);
 
-const ships: ComputedRef<Ship[]> = computed(() => {
-  const router = useRouter();
-  try {
-    store.dispatch('ships/fetchShips');
-  } catch (error) {
-    return router.push({ name: 'networkError'})
+watch(searchValue, (value: string) => {
+  if (value === '') {
+    ships.value = store.state.ships.items;
+    return;
   }
-  return store.state.ships.items;
+
+  ships.value = store.state.ships.items
+    .filter(
+      ({ name }) => name.toLowerCase().includes(value.toLowerCase())
+    )
+    .sort(
+      ({ name}, { name: secondName }) => {
+        if (name < secondName) {
+          return -1;
+        }
+        if (name > secondName) {
+          return 1;
+        }
+
+        return 0;
+      }
+    );
 });
-console.log(ships);
-
-
 </script>
 
 <style scoped>
+form {
+  display: flex;
+  align-items: center;
 
+  label {
+    margin-right: 20px;
+  }
+  input {
+    background-color: var(--vt-c-white);
+    padding: 5px;
+    border-radius: 5px;
+  }
+}
 </style>

@@ -1,6 +1,11 @@
 <template>
   <h2>Liste des pilotes</h2>
 
+  <form>
+    <label for="search">Recherche un pilote :</label>
+    <input id="search" name="search" v-model.trim="searchValue"/>
+  </form>
+
   <table>
     <thead>
     <tr>
@@ -31,15 +36,32 @@
 
 <script setup lang="ts">
 import { useStore } from '@/store';
-import type { ComputedRef } from 'vue';
-import { computed } from 'vue';
-import type Pilots from '@/store/modules/pilots';
+import { ref, watch } from 'vue';
 
 const store = useStore();
-
 store.dispatch('pilots/fetchPilots');
-const pilots: ComputedRef<Pilots[]> = computed(() => {
-  return store.state.pilots.items;
+
+const searchValue = ref('');
+const pilots = ref(store.state.pilots.items);
+
+watch(searchValue, (value: string) => {
+  if (value === '') {
+    pilots.value = store.state.pilots.items;
+    return;
+  }
+
+  pilots.value = store.state.pilots.items.filter(
+    ({ firstname, lastname }) => firstname.toLowerCase().includes(value.toLowerCase()) || lastname.toLowerCase().includes(value.toLowerCase())
+  ).sort(({ lastname}, { lastname: secondLastName }) => {
+    if (lastname < secondLastName) {
+      return -1;
+    }
+    if (lastname > secondLastName) {
+      return 1;
+    }
+
+    return 0;
+  });
 });
 </script>
 
@@ -50,5 +72,20 @@ const pilots: ComputedRef<Pilots[]> = computed(() => {
   height: 80px;
   object-fit: contain;
 }
+
+form {
+  display: flex;
+  align-items: center;
+
+  label {
+    margin-right: 20px;
+  }
+  input {
+    background-color: var(--vt-c-white);
+    padding: 5px;
+    border-radius: 5px;
+  }
+}
+
 
 </style>

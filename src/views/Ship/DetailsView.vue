@@ -1,5 +1,4 @@
 <template>
-
   <div>
     <router-link :to="{ name: 'ships'}">Voir tous les vaisseaux</router-link>
   </div>
