@@ -1,7 +1,9 @@
 <template>
   <div class="form-group">
-    <label :for="id">{{ label }}</label>
-    <input :id="id" :name="name" type="checkbox" v-model="innerChecked" :value="value"/>
+    <div class="radio-input">
+      <label :for="id">{{ label }}</label>
+      <input :id="id" :name="name" type="checkbox" v-model="innerChecked" :value="value"/>
+    </div>
   </div>
 </template>
 
@@ -26,7 +28,4 @@ const innerChecked: WritableComputedRef<boolean> = computed({
 </script>
 
 <style scoped>
-label {
-  margin-right: 20px;
-}
 </style>

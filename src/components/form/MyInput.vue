@@ -1,13 +1,19 @@
 <template>
   <div class="form-group">
-    <label :for="id">{{ label }}</label>
-    <input :id="id" :name="name" :type="type" v-model="innerValue"/>
+    <label :for="id">{{ label }}<span class="required" v-if="required">*</span></label>
+    <input :id="id" :name="name" :type="type" v-model="innerValue" :required="required" :minlength="minLength"/>
+
+    <p v-if="v$.$errors.length > 0" class="error-message" aria-live="assertive">
+      {{ v$.$errors[0].$message }}
+    </p>
   </div>
 </template>
 
 
 <script setup lang="ts">
 import { computed, type WritableComputedRef } from 'vue';
+import { minLength as minLengthValidator, required as requiredValidator } from '@vuelidate/validators';
+import useVuelidate from '@vuelidate/core';
 
 interface Props {
   id: string;
@@ -15,25 +21,34 @@ interface Props {
   name?: string;
   type?: string;
   modelValue?: string | number;
+  required?: boolean;
+  minLength?: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   modelValue: '',
-  type: 'text'
+  type: 'text',
+  minLength: 0
 });
 
 const emit = defineEmits<{ 'update:modelValue': [value: string | number] }>();
 const innerValue: WritableComputedRef< string | number> = computed({
   get: () => props.modelValue,
   set: (value: string | number) => emit('update:modelValue', value)
-})
+});
+
+
+const rules = computed(() => ({
+  innerValue: {
+    requiredValidation: requiredValidator,
+    minLength: minLengthValidator(props.minLength)
+  },
+}));
+const v$ = useVuelidate(rules, { innerValue }, { $lazy: true });
+
 </script>
 
 <style scoped>
-label {
-  margin-right: 20px;
-}
-
 input {
   background-color: var(--vt-c-white-mute);
   padding: 5px;

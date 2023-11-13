@@ -74,6 +74,7 @@ const genderOptions = [
     value: Gender.NotSpecified as string
   },
 ];
+
 const submit = () => {
   store.dispatch('travelers/fetchTravelers');
   const id = store.state.travelers.items.length + 1;

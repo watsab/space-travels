@@ -1,5 +1,5 @@
 <template>
-  <div class="form-group">
+  <div class="radio-input">
     <label :for="id">{{ label }}</label>
     <input :id="id" :name="name" type="radio" :checked="props.modelValue === props.value" :value="value" @change="onChange"/>
   </div>

@@ -1,18 +1,20 @@
 <template>
-  <fieldset :class="['form-group', 'radio-group', direction]">
-    <legend>{{ label }}</legend>
+  <div class="form-group">
+    <fieldset :class="['radio-group', direction]">
+      <legend>{{ label }}</legend>
 
-    <MyRadio
-      v-for="option in options"
-      :key="option.id"
-      :id="option.id"
-      :name="name"
-      :label="option.label"
-      :value="option.value"
-      class="radio-button"
-      v-model="checkedValue"
-    />
-  </fieldset>
+      <MyRadio
+        v-for="option in options"
+        :key="option.id"
+        :id="option.id"
+        :name="name"
+        :label="option.label"
+        :value="option.value"
+        class="radio-button"
+        v-model="checkedValue"
+      />
+    </fieldset>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -46,6 +48,7 @@ const checkedValue = computed({
 <style scoped>
 .radio-group {
   display: flex;
+  gap: 1rem;
 
   &.horizontal {
     align-items: center;
@@ -54,14 +57,9 @@ const checkedValue = computed({
 
 
   &.vertical {
-    flex-display: column;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-  }
-
-  .radio-button + .radio-button {
-    margin-left: 10px;
-    margin-top: 0;
   }
 }
 </style>
