@@ -6,8 +6,8 @@
     </template>
     <template v-slot:body>
       <form ref="form" id="creationForm" @submit.prevent="submit" novalidate>
-        <MyInput id="firstname" label="Prénom" v-model="pilotData.firstname" required></MyInput>
-        <MyInput id="lastname" label="Nom" v-model="pilotData.lastname" required></MyInput>
+        <MyInput id="firstname" label="Prénom" v-model="pilotData.firstname" required :validation-rules="rules.firstname"></MyInput>
+        <MyInput id="lastname" label="Nom" v-model="pilotData.lastname" required :validation-rules="rules.lastname"></MyInput>
       </form>
     </template>
     <template v-slot:footer>
@@ -26,6 +26,7 @@ import MyCard from '@/components/MyCard.vue';
 import MyButton from '@/components/MyButton.vue';
 import MyInput from '@/components/form/MyInput.vue';
 import useVuelidate from '@vuelidate/core';
+import { noWhiteSpace } from '@/utils/validators/noWhiteSpace';
 
 const pilotData = reactive({
   firstname: '',
@@ -36,6 +37,14 @@ const pilotData = reactive({
 const store = useStore();
 const form: Ref<null | ({ reset: () => void } & HTMLElement)> = ref(null);
 
+const rules = {
+  firstname: {
+    noWhiteSpace
+  },
+  lastname: {
+    noWhiteSpace
+  }
+};
 const vuelidate = useVuelidate();
 const submit = async  () => {
   if (!await vuelidate.value.$validate()) {

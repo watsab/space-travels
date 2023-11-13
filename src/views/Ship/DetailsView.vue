@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { ref, type Ref, watchEffect } from 'vue';
 import type { Ship } from '@/models/Ship';
 import MyCard from '@/components/MyCard.vue';

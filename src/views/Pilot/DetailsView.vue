@@ -36,9 +36,7 @@ const store = useStore();
 const pilot: Ref<Pilot | null> = ref(null);
 watchEffect(() => {
   store.dispatch('pilots/fetchPilots');
-  console.log(props.id);
   pilot.value = store.getters['pilots/getById'](props.id);
-  console.log(pilot.value);
 
   if (!pilot.value) {
     const { push } = useRouter();

@@ -88,11 +88,11 @@ const flashMessage = computed(() => {
  }
 
 .container {
-  height: 100vh;
-  padding-top: 120px;
+  height: calc(100vh - 100px);
+  padding: 20px 0;
   overflow: auto;
-
   position: relative;
+  top: 100px;
 
   & .flash-message {
     position: fixed;

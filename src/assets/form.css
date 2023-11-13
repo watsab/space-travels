@@ -16,6 +16,7 @@ form {
     }
 
 
+    & legend,
     & label {
         .required {
             color: var(--color-text-error);

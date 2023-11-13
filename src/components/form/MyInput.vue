@@ -12,12 +12,13 @@
 
 <script setup lang="ts">
 import { computed, type WritableComputedRef } from 'vue';
-import { minLength as minLengthValidator, required as requiredValidator } from '@vuelidate/validators';
-import useVuelidate from '@vuelidate/core';
+import { minLength as minLengthValidator, required as requiredValidator, email } from '@vuelidate/validators';
+import useVuelidate, { type ValidationRule} from '@vuelidate/core';
 
 interface Props {
   id: string;
   label: string;
+  validationRules?: { [key: string]: (value: any) => ValidationRule };
   name?: string;
   type?: string;
   modelValue?: string | number;
@@ -28,7 +29,8 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   modelValue: '',
   type: 'text',
-  minLength: 0
+  minLength: 0,
+  validationRules: () => ({})
 });
 
 const emit = defineEmits<{ 'update:modelValue': [value: string | number] }>();
@@ -38,13 +40,29 @@ const innerValue: WritableComputedRef< string | number> = computed({
 });
 
 
-const rules = computed(() => ({
-  innerValue: {
-    requiredValidation: requiredValidator,
-    minLength: minLengthValidator(props.minLength)
-  },
-}));
-const v$ = useVuelidate(rules, { innerValue }, { $lazy: true });
+const rules = computed(() => {
+  const rules: { [key: string]: ValidationRule} = {};
+
+  if (props.required) {
+    rules['required'] = requiredValidator
+  }
+
+  if (props.minLength) {
+    rules['minLength'] = minLengthValidator(props.minLength);
+  }
+
+  if (props.type === 'email') {
+    rules['email'] = email;
+  }
+
+  return {
+    innerValue: {
+      ...rules,
+      ...props.validationRules
+    }
+  }
+});
+const v$ = useVuelidate(rules, { innerValue });
 
 </script>
 
