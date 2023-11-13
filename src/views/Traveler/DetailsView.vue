@@ -3,24 +3,31 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute, useRouter } from 'vue-router';
-import { useTravelersManager } from '@/composable/useTravelersManager';
-import { type Ref, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { type Ref, ref, watchEffect } from 'vue';
 import type { Traveler } from '@/models/Traveler';
+import { useStore } from 'vuex';
 
-const route = useRoute();
 
-const { getById } = useTravelersManager();
-const { push } = useRouter();
+interface Props {
+  id: number;
+}
+
+const props = defineProps<Props>();
+
+const store = useStore();
 const traveler: Ref<Traveler | null> = ref(null);
-try {
-  traveler.value = await getById(Number.parseInt(route.params.id as string, 10));
+
+watchEffect(async () => {
+  await store.dispatch('travelers/fetchTravelers');
+  traveler.value = store.getters['travelers/getById'](props.id) ?? null;
+
   if (!traveler.value) {
+    const { push } = useRouter();
     push({ name: 'notFound' });
   }
-} catch (e) {
-  push({ name: 'networkError' });
-}
+})
+
 
 </script>
 

@@ -5,6 +5,10 @@
     "pilotId": 1
   },
   {
+    "name": "L'horizon de Jupiter",
+    "slug": "l-horizon-de-jupiter"
+  },
+  {
     "name": "Le seigneur de Saturne",
     "slug": "le-seigneur-de-saturne",
     "pilotId": 3
@@ -13,5 +17,9 @@
     "name": "Autour de Mars",
     "slug": "autour-de-mars",
     "pilotId": 4
+  },
+  {
+    "name": "Notre terre",
+    "slug": "notre-terre"
   }
 ]

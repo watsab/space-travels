@@ -1,10 +1,10 @@
-import { usePilotsManager } from '@/composable/usePilotsManager';
 import type { Ship } from '@/models/Ship';
 import shipData from '@/data/ships.json';
+import store from '@/store';
 
 
 const getAll = (): Ship[] => {
-  const pilots = usePilotsManager().getAll();
+  const pilots = store.state.pilots.items;
   return shipData.map((ship): Ship => {
     return {
       name: ship.name,
@@ -13,12 +13,6 @@ const getAll = (): Ship[] => {
     }
   });
 }
-
-const getBySlug = (shipSlug: string): Ship | undefined => {
-  getAll().find(({ slug }) => slug === shipSlug)
-}
-
 export {
-  getAll,
-  getBySlug,
+  getAll
 }

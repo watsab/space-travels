@@ -51,6 +51,7 @@ const router = createRouter({
         {
           path: ':id(\\d+)',
           name: 'travelerDetails',
+          props: (route) => ({ id: Number.parseInt(route.params.id as string, 10) }),
           component: TravelerDetailsView
         },
       ]
@@ -70,6 +71,7 @@ const router = createRouter({
         {
           path: ':id(\\d+)',
           name: 'pilotDetails',
+          props: (route) => ({ id: Number.parseInt(route.params.id as string, 10) }),
           component: PilotDetailsView
         }
       ]
@@ -89,6 +91,7 @@ const router = createRouter({
         {
           path: ':slug([a-z-]+)',
           name: 'shipDetails',
+          props: true,
           component: ShipDetailsView
         }
       ]

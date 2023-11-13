@@ -12,11 +12,22 @@ const initialState = {
   items: [],
 };
 
+const getters = {
+  getById: (state: InitialState) => (pilotId: number): Pilot | undefined => {
+    return state.items.find(({id}) => {
+      return id === pilotId
+    });
+  }
+};
+
 const state = (): InitialState => (initialState)
 
 // actions
 const actions = {
-  fetchPilots({ commit }: ActionContext<InitialState, any>) {
+  fetchPilots({state, commit }: ActionContext<InitialState, any>) {
+    if (state.items.length > 1) {
+      return;
+    }
     const pilots = getAll();
     commit('setPilots', pilots);
   }
@@ -35,6 +46,7 @@ const mutations = {
 export default {
   namespaced: true,
   state,
+  getters,
   actions,
   mutations,
 }

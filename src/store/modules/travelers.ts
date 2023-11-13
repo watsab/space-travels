@@ -14,9 +14,19 @@ const initialState = {
 
 const state = (): InitialState => (initialState)
 
+const getters = {
+  getById: (state: InitialState) => (travelerId: number) => {
+    state.items.find(({ id }) => id === travelerId);
+  }
+}
+
 // actions
 const actions = {
-  async fetchTravelers({ commit }: ActionContext<InitialState, any>, page: number) {
+  async fetchTravelers({ state, commit }: ActionContext<InitialState, any>, page: number) {
+    if (state.items.length > 1) {
+      return;
+    }
+
     const travelers= await getAll(page);
     commit('setTravelers', travelers);
   }
@@ -32,6 +42,7 @@ const mutations = {
 export default {
   namespaced: true,
   state,
+  getters,
   actions,
   mutations,
 }

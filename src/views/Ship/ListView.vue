@@ -30,11 +30,20 @@
 </template>
 
 <script setup lang="ts">
-import { useShipsManager } from '@/composable/useShipsManager';
+import { useStore } from 'vuex';
+import { computed, type ComputedRef } from 'vue';
+import type { Ship } from '@/models/Ship';
 
-const { getAll } = useShipsManager();
+const store = useStore();
 
-const ships = getAll();
+store.dispatch('ships/fetchShips');
+
+const ships: ComputedRef<Ship[]> = computed(() => {
+  return store.state.ships.items;
+});
+console.log(ships);
+
+
 </script>
 
 <style scoped>

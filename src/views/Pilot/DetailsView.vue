@@ -21,19 +21,31 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute, useRouter } from 'vue-router';
-
-import { usePilotsManager } from '@/composable/usePilotsManager';
+import { type Ref, ref, watchEffect } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+import type { Pilot } from '@/models/Pilot';
 import MyCard from '@/components/MyCard.vue';
 
-const route = useRoute();
-const { getById } = usePilotsManager()
-const pilot = getById(Number.parseInt(route.params.id as string, 10));
-
-if (!pilot) {
-  const { push } = useRouter();
-  push({ name: 'notFound' });
+interface Props {
+  id: number;
 }
+
+const props = defineProps<Props>();
+const store = useStore();
+const pilot: Ref<Pilot | null> = ref(null);
+watchEffect(() => {
+  store.dispatch('pilots/fetchPilots');
+  console.log(props.id);
+  pilot.value = store.getters['pilots/getById'](props.id);
+  console.log(pilot.value);
+
+  if (!pilot.value) {
+    const { push } = useRouter();
+    push({ name: 'notFound' });
+  }
+})
+
 </script>
 
 <style scoped>

@@ -17,21 +17,31 @@
 
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
-import { computed,  type ComputedRef } from 'vue';
+import { ref, type Ref, watchEffect } from 'vue';
 import type { Ship } from '@/models/Ship';
-import { useShipsManager } from '@/composable/useShipsManager';
 import MyCard from '@/components/MyCard.vue';
+import { useStore } from 'vuex';
+
+interface Props {
+  slug: string;
+}
+
+const props = defineProps<Props>();
 
 const route = useRoute();
-const { getBySlug } = useShipsManager();
-const currentShip: ComputedRef<Ship | undefined> = computed(() => {
-  return getBySlug(route.params.slug as string)
+const store = useStore();
+const currentShip: Ref<Ship | null> = ref(null);
+
+watchEffect(async () => {
+  await store.dispatch('ships/fetchShips');
+  currentShip.value = store.getters['ships/getBySlug'](props.slug) ?? null;
+
+  if (!currentShip.value) {
+    const { push } = useRouter();
+    push({ name: 'notFound' });
+  }
 })
 
-if (!currentShip.value) {
-  const { push } = useRouter();
-  push({ name: 'notFound' });
-}
 </script>
 
 <style scoped>
