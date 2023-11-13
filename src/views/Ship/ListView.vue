@@ -6,6 +6,12 @@
       <label for="search">Recherche un vaisseau :</label>
       <input id="search" name="search" v-model.trim="searchValue"/>
     </div>
+
+
+    <div class="form-group">
+      <label for="shipsWithPilots">Afficher les vaisseaux avec pilotes seulement</label>
+      <input id="shipsWithPilots" type="checkbox" v-model="withPilotsOnly">
+    </div>
   </form>
 
   <table>
@@ -38,23 +44,31 @@
 
 <script setup lang="ts">
 import { useStore } from '@/store';
-import { ref, watch } from 'vue';
+import { ref, watchEffect } from 'vue';
+import type { Ship } from '@/models/Ship';
 
 const store = useStore();
 
 const searchValue = ref('');
 store.dispatch('ships/fetchShips');
 const ships = ref(store.state.ships.items);
+const withPilotsOnly = ref(false);
 
-watch(searchValue, (value: string) => {
-  if (value === '') {
-    ships.value = store.state.ships.items;
-    return;
-  }
-
+const filterShips = () => {
   ships.value = store.state.ships.items
     .filter(
-      ({ name }) => name.toLowerCase().includes(value.toLowerCase())
+      (ship: Ship) => {
+        let isValid = true;
+        if (searchValue.value.length > 0) {
+          isValid = isValid && ship.name.toLowerCase().includes(searchValue.value.toLowerCase());
+        }
+
+        if (withPilotsOnly.value) {
+          isValid = isValid && !!ship.pilot;
+        }
+
+        return isValid;
+      }
     )
     .sort(
       ({ name}, { name: secondName }) => {
@@ -68,21 +82,32 @@ watch(searchValue, (value: string) => {
         return 0;
       }
     );
-});
+}
+
+watchEffect(filterShips);
+
 </script>
 
 <style scoped>
 form {
-  display: flex;
-  align-items: center;
+  .form-group {
+    display: flex;
+    align-items: center;
 
-  label {
-    margin-right: 20px;
+    label {
+      margin-right: 20px;
+    }
+
+    input {
+      background-color: var(--vt-c-white);
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    + .form-group {
+      margin-top: 10px;
+    }
   }
-  input {
-    background-color: var(--vt-c-white);
-    padding: 5px;
-    border-radius: 5px;
-  }
+
 }
 </style>
