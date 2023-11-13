@@ -11,6 +11,7 @@ import NetworkError from '@/components/NetworkError.vue';
 import nProgress from 'nprogress';
 import { store } from '@/store';
 import PilotCreateView from '@/views/Pilot/CreateView.vue';
+import TravelerCreateView from '@/views/Traveler/CreateView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,7 +22,10 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      meta: {
+        title: 'Accueil - %'
+      }
     },
     {
       path: '/traveler',
@@ -46,15 +50,29 @@ const router = createRouter({
         {
           path: '',
           name: 'travelers',
+          meta: {
+            title: 'Nos voyageurs - %'
+          },
           component: TravelerListView,
           props: (route) => ({page: Number.parseInt(route.query.page as string, 10) || 1})
         },
         {
           path: ':id(\\d+)',
           name: 'travelerDetails',
+          meta: {
+            title: 'Nos voyageurs - %'
+          },
           props: (route) => ({ id: Number.parseInt(route.params.id as string, 10) }),
           component: TravelerDetailsView
         },
+        {
+          path: 'new',
+          name: 'travelerCreate',
+          meta: {
+            title: 'Nouveau Voyageur - %'
+          },
+          component: TravelerCreateView
+        }
       ]
     },
     {
@@ -67,17 +85,26 @@ const router = createRouter({
         {
           path: '',
           name: 'pilots',
+          meta: {
+            title: 'Nos pilotes - %'
+          },
           component: PilotListView,
         },
         {
           path: ':id(\\d+)',
           name: 'pilotDetails',
+          meta: {
+            title: 'Nos pilotes - %'
+          },
           props: (route) => ({ id: Number.parseInt(route.params.id as string, 10) }),
           component: PilotDetailsView
         },
         {
           path: 'new',
           name: 'pilotCreate',
+          meta: {
+            title: 'Nouveau pilote - %'
+          },
           component: PilotCreateView
         }
       ]
@@ -92,6 +119,9 @@ const router = createRouter({
         {
           path: '',
           name: 'ships',
+          meta: {
+            title: 'Nos vaisseaux - %'
+          },
           component: ShipListView,
         },
         {
@@ -124,8 +154,14 @@ const router = createRouter({
   ]
 });
 
-router.beforeEach(() => {
+router.beforeEach((to) => {
   nProgress.start();
+
+  if (to.meta.title && 'string' === typeof to.meta.title) {
+    document.title = to.meta.title.replace('%', 'Space Travels');
+  } else {
+    document.title = 'Space Travels';
+  }
 
   return true;
 });
