@@ -33,12 +33,18 @@
 import { useStore } from 'vuex';
 import { computed, type ComputedRef } from 'vue';
 import type { Ship } from '@/models/Ship';
+import { useRouter } from 'vue-router';
 
 const store = useStore();
 
-store.dispatch('ships/fetchShips');
 
 const ships: ComputedRef<Ship[]> = computed(() => {
+  const router = useRouter();
+  try {
+    store.dispatch('ships/fetchShips');
+  } catch (error) {
+    return router.push({ name: 'networkError'})
+  }
   return store.state.ships.items;
 });
 console.log(ships);

@@ -128,6 +128,6 @@ router.afterEach(() => {
   nProgress.done();
 
   return true;
-})
+});
 
 export default router

@@ -34,11 +34,16 @@ const currentShip: Ref<Ship | null> = ref(null);
 
 watchEffect(async () => {
   await store.dispatch('ships/fetchShips');
-  currentShip.value = store.getters['ships/getBySlug'](props.slug) ?? null;
+  const { push } = useRouter();
+  try {
+    currentShip.value = store.getters['ships/getBySlug'](props.slug) ?? null;
 
-  if (!currentShip.value) {
-    const { push } = useRouter();
-    push({ name: 'notFound' });
+    if (!currentShip.value) {
+      push({ name: 'notFound' });
+    }
+  } catch (error) {
+    console.error(error);
+    push({ name: 'networkError' });
   }
 })
 
