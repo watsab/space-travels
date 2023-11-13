@@ -8,7 +8,9 @@
       <form ref="form" id="creationForm" @submit.prevent="submit" >
         <fieldset>
           <legend>Identité</legend>
+          <MyRadioGroup name="civility" :options="genderOptions" v-model="travelerData.civility" label="Civilité"/>
           <MyInput id="name" label="Prénom et Nom" v-model="travelerData.name"></MyInput>
+          <MyInput id="email" label="Email" v-model="travelerData.email" type="email"></MyInput>
         </fieldset>
         <fieldset>
           <legend>Adresse</legend>
@@ -37,9 +39,13 @@ import type { Traveler } from '@/models/Traveler';
 import MyCard from '@/components/MyCard.vue';
 import MyButton from '@/components/MyButton.vue';
 import MyInput from '@/components/form/MyInput.vue';
+import { Gender } from '@/models/Gender';
+import MyRadioGroup from '@/components/form/MyRadioGroup.vue';
 
 const travelerData = reactive({
+  civility: '',
   name: '',
+  email: '',
   address: {
     street: '',
     suite: '',
@@ -50,6 +56,24 @@ const travelerData = reactive({
 
 const store = useStore();
 const form: Ref<null | ({ reset: () => void } & HTMLElement)> = ref(null);
+
+const genderOptions = [
+  {
+    id: 'male',
+    label: 'M.',
+    value: Gender.Male as string
+  },
+  {
+    id: 'female',
+    label: 'Mme.',
+    value: Gender.Female as string
+  },
+  {
+    id: 'notSpecified',
+    label: 'Non spécifié',
+    value: Gender.NotSpecified as string
+  },
+];
 const submit = () => {
   store.dispatch('travelers/fetchTravelers');
   const id = store.state.travelers.items.length + 1;
@@ -85,6 +109,4 @@ fieldset {
     margin-bottom: 15px;
   }
 }
-
-
 </style>
