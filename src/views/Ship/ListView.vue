@@ -2,16 +2,8 @@
   <h2>Liste des vaisseaux</h2>
 
   <form>
-    <div class="form-group">
-      <label for="search">Recherche un vaisseau :</label>
-      <input id="search" name="search" v-model.trim="searchValue"/>
-    </div>
-
-
-    <div class="form-group">
-      <label for="shipsWithPilots">Afficher les vaisseaux avec pilotes seulement</label>
-      <input id="shipsWithPilots" type="checkbox" v-model="withPilotsOnly">
-    </div>
+    <MyInput id="search" label="Rechercher un vaisseau :" v-model.trim="searchValue"/>
+    <MyCheckbox id="shipsWithPilots" label="Afficher les vaisseaux avec pilotes seulement" v-model="withPilotsOnly"/>
   </form>
 
   <table>
@@ -46,6 +38,8 @@
 import { useStore } from '@/store';
 import { ref, watchEffect } from 'vue';
 import type { Ship } from '@/models/Ship';
+import MyInput from '@/components/form/MyInput.vue';
+import MyCheckbox from '@/components/form/MyCheckbox.vue';
 
 const store = useStore();
 
