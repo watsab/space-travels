@@ -1,24 +1,21 @@
 <template>
   <h2>Liste des voyageurs</h2>
 
-  <table>
-    <thead>
-    <tr>
+
+  <MyDataTable :items="travelers">
+    <template #header>
       <th>Prénom Nom</th>
       <th>Email</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr v-for="traveler in travelers" :key="traveler.id">
+    </template>
+    <template v-slot:row="{ item }: {item: Traveler}">
       <td>
-        {{ traveler.name }}
+        {{ item.name }}
       </td>
       <td>
-        {{ traveler.email }}
+        {{ item.email }}
       </td>
-    </tr>
-    </tbody>
-  </table>
+    </template>
+  </MyDataTable>
 
   <div class="pagination">
     <div>
@@ -36,6 +33,7 @@ import { onBeforeRouteLeave, useRouter } from 'vue-router';
 import nProgress from 'nprogress';
 import { useStore } from '@/store';
 import type { Traveler } from '@/models/Traveler';
+import MyDataTable from '@/components/MyDataTable.vue';
 
 interface Props {
   page: number;
@@ -59,10 +57,10 @@ watch(() => props.page, async (value) => {
 const travelers: ComputedRef<Traveler[]> = computed(() => {
   return store.state.travelers.items;
 })
-
-onBeforeRouteLeave(() => {
-  return window.confirm('Vous êtes sur le point de quitter la page. Etes-vous sûr ?')
-})
+//
+// onBeforeRouteLeave(() => {
+//   return window.confirm('Vous êtes sur le point de quitter la page. Etes-vous sûr ?')
+// })
 
 </script>
 

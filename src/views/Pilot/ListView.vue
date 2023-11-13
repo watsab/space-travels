@@ -14,37 +14,35 @@
     </div>
   </div>
 
-  <table>
-    <thead>
-    <tr>
+  <MyDataTable :items="pilots">
+    <template #header>
       <th></th>
       <th>Nom</th>
       <th>Prénom</th>
       <th></th>
-    </tr>
-    </thead>
-    <tbody v-if="pilots.length > 0">
-    <tr v-for="pilot in pilots" :key="pilot.id">
+    </template>
+    <template v-slot:row="{ item }: { item: Pilot }">
       <td>
-        <img  class="profile-picture" :src="pilot.picturePath" :alt="`${pilot.firstname} ${pilot.lastname}`">
+        <img  class="profile-picture" :src="item.picturePath" :alt="`${item.firstname} ${item.lastname}`">
       </td>
       <td>
-        {{ pilot.lastname }}
+        {{ item.lastname }}
       </td>
       <td>
-        {{ pilot.firstname }}
+        {{ item.firstname }}
       </td>
       <td>
-        <router-link :to="{name: 'pilotDetails', params: { id: pilot.id }}">Voir les détails</router-link>
+        <router-link :to="{name: 'pilotDetails', params: { id: item.id }}">Voir les détails</router-link>
       </td>
-    </tr>
-    </tbody>
-  </table>
+    </template>
+  </MyDataTable>
 </template>
 
 <script setup lang="ts">
 import { useStore } from '@/store';
 import { ref, watch } from 'vue';
+import MyDataTable from '@/components/MyDataTable.vue';
+import type { Pilot } from '@/models/Pilot';
 
 const store = useStore();
 store.dispatch('pilots/fetchPilots');

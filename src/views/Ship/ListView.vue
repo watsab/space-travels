@@ -6,32 +6,26 @@
     <MyCheckbox id="shipsWithPilots" label="Afficher les vaisseaux avec pilotes seulement" v-model="withPilotsOnly"/>
   </form>
 
-  <table>
-    <thead>
-    <tr>
+  <MyDataTable :items="ships">
+    <template #header>
       <th>Nom</th>
       <th>Pilote</th>
       <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr v-for="ship in ships" :key="ship.slug">
+    </template>
+    <template v-slot:row="{ item }: {item: Ship}">
       <td>
-        {{ ship.name }}
+        {{ item.name }}
       </td>
       <td>
-        <router-link v-if="ship.pilot" :to="{name: 'pilotDetails', params: { id: ship.pilot.id }}">
-          {{ ship.pilot.firstname }} {{ ship.pilot.lastname }}
+        {{ item.pilot?.firstname }} {{ item.pilot?.lastname }}
+      </td>
+      <td>
+        <router-link :to="{name: 'shipDetails', params: { slug: item.slug }}">
+          Voir les détails
         </router-link>
       </td>
-      <td>
-        <router-link :to="{name: 'shipDetails', params: { slug: ship.slug }}">
-          Voir le détail
-        </router-link>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+    </template>
+  </MyDataTable>
 </template>
 
 <script setup lang="ts">
@@ -40,6 +34,7 @@ import { ref, watchEffect } from 'vue';
 import type { Ship } from '@/models/Ship';
 import MyInput from '@/components/form/MyInput.vue';
 import MyCheckbox from '@/components/form/MyCheckbox.vue';
+import MyDataTable from '@/components/MyDataTable.vue';
 
 const store = useStore();
 
