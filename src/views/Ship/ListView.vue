@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { useStore } from 'vuex';
+import { useStore } from '@/store';
 import { computed, type ComputedRef } from 'vue';
 import type { Ship } from '@/models/Ship';
 import { useRouter } from 'vue-router';

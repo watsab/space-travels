@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { useStore } from 'vuex';
+import { useStore } from '@/store';
 import type { ComputedRef } from 'vue';
 import { computed } from 'vue';
 import type Pilots from '@/store/modules/pilots';

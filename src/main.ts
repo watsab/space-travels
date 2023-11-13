@@ -8,10 +8,10 @@ import router from './router'
 import { clickOutside } from '@/directives/clickOutside';
 import 'nprogress/nprogress.css';
 
-import store from '@/store';
+import { store, key } from '@/store';
 
-const app = createApp(App)
+createApp(App)
   .use(router)
-  .use(store)
+  .use(store, key)
   .directive('clickOutside', clickOutside)
   .mount('#app')

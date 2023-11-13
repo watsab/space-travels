@@ -6,7 +6,7 @@
 import { useRouter } from 'vue-router';
 import { type Ref, ref, watchEffect } from 'vue';
 import type { Traveler } from '@/models/Traveler';
-import { useStore } from 'vuex';
+import { useStore } from '@/store';
 
 
 interface Props {

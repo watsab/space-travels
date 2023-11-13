@@ -34,7 +34,7 @@
 import { computed, type ComputedRef, watch } from 'vue';
 import { onBeforeRouteLeave, useRouter } from 'vue-router';
 import nProgress from 'nprogress';
-import { useStore } from 'vuex';
+import { useStore } from '@/store';
 import type { Traveler } from '@/models/Traveler';
 
 interface Props {

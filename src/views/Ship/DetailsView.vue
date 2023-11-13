@@ -20,7 +20,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { ref, type Ref, watchEffect } from 'vue';
 import type { Ship } from '@/models/Ship';
 import MyCard from '@/components/MyCard.vue';
-import { useStore } from 'vuex';
+import { useStore } from '@/store';
 
 interface Props {
   slug: string;
@@ -28,7 +28,6 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const route = useRoute();
 const store = useStore();
 const currentShip: Ref<Ship | null> = ref(null);
 

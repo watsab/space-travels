@@ -1,7 +1,6 @@
 import { getAll } from '@/services/shipsManager';
 import type { Ship } from '@/models/Ship';
 import type { ActionContext } from 'vuex';
-import store from '@/store';
 
 export interface InitialState {
   items: Ship[]

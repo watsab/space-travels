@@ -9,7 +9,7 @@ import ShipDetailsView from '@/views/Ship/DetailsView.vue';
 import NotFound from '@/components/NotFound.vue';
 import NetworkError from '@/components/NetworkError.vue';
 import nProgress from 'nprogress';
-import store from '@/store';
+import { store } from '@/store';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
