@@ -5,9 +5,9 @@
       <h2>Créer un nouveau pilote</h2>
     </template>
     <template v-slot:body>
-      <form ref="form" id="creationForm" @submit.prevent="submit" >
-        <MyInput id="firstname" label="Prénom" v-model="pilotData.firstname"></MyInput>
-        <MyInput id="lastname" label="Nom" v-model="pilotData.lastname"></MyInput>
+      <form ref="form" id="creationForm" @submit.prevent="submit" novalidate>
+        <MyInput id="firstname" label="Prénom" v-model="pilotData.firstname" required></MyInput>
+        <MyInput id="lastname" label="Nom" v-model="pilotData.lastname" required></MyInput>
       </form>
     </template>
     <template v-slot:footer>
@@ -20,14 +20,12 @@
 </template>
 
 <script setup lang="ts">
-
 import { reactive, type Ref, ref } from 'vue';
 import { useStore } from '@/store';
 import type { Pilot } from '@/models/Pilot';
 import MyCard from '@/components/MyCard.vue';
 import MyButton from '@/components/MyButton.vue';
 import MyInput from '@/components/form/MyInput.vue';
-import MyCheckbox from '@/components/form/MyCheckbox.vue';
 
 const pilotData = reactive({
   firstname: '',
@@ -39,6 +37,7 @@ const store = useStore();
 const form: Ref<null | ({ reset: () => void } & HTMLElement)> = ref(null);
 const submit = () => {
   store.dispatch('pilots/fetchPilots');
+
   const id = store.state.pilots.items.length + 1;
 
   const pilot: Pilot = {
@@ -54,7 +53,6 @@ const submit = () => {
 
   setTimeout(() => store.dispatch('app/resetFlashMessage'), 3000);
 };
-
 </script>
 
 <style scoped>
