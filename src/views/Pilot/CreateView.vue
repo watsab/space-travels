@@ -35,7 +35,26 @@ const pilotData = reactive({
 
 const store = useStore();
 const form: Ref<null | ({ reset: () => void } & HTMLElement)> = ref(null);
-const submit = () => {
+
+// const rules = computed(() => ({
+//   firstname: {
+//     required,
+//     minLength: minLength(3)
+//   },
+//   lastname: {
+//     required,
+//     minLength: minLength(3)
+//   }
+// }));
+
+const vuelidate = useVuelidate();
+const submit = async  () => {
+  console.log(await vuelidate.value.$validate());
+  return;
+  if (!await vuelidate.value.$validate()) {
+    return;
+  }
+
   store.dispatch('pilots/fetchPilots');
 
   const id = store.state.pilots.items.length + 1;
