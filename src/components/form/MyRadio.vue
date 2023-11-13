@@ -1,29 +1,26 @@
 <template>
   <div class="form-group">
     <label :for="id">{{ label }}</label>
-    <input :id="id" :name="name" type="radio" v-model="innerChecked" :value="value"/>
+    <input :id="id" :name="name" type="radio" :checked="props.modelValue === props.value" :value="value" @change="onChange"/>
   </div>
 </template>
 
 
 <script setup lang="ts">
-import { computed, type WritableComputedRef } from 'vue';
-
 interface Props {
   id: string;
-  name?: string;
   label: string;
-  value?: string;
-  modelValue?: boolean;
+  name: string;
+  value: string | number;
+  modelValue?: string | number;
 }
 
 const props = defineProps<Props>();
-const emit = defineEmits<{ 'update:modelValue': [checked: boolean]}>();
-const innerChecked: WritableComputedRef<boolean> = computed({
-  get: () => props.modelValue,
-  set: (checked: boolean) => emit('update:modelValue', checked)
-});
+const emit = defineEmits<{ 'update:modelValue': [value: string | number]}>();
 
+const onChange = () => {
+  emit('update:modelValue', props.value);
+}
 </script>
 
 <style scoped>

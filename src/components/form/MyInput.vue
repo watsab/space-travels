@@ -9,23 +9,17 @@
 <script setup lang="ts">
 import { computed, type WritableComputedRef } from 'vue';
 
-const enum Type {
-  Text = 'text',
-  Email = 'email',
-  Password = 'password',
-  Number = 'number'
-}
 interface Props {
   id: string;
-  name?: string;
   label: string;
-  type?: Type;
+  name?: string;
+  type?: string;
   modelValue?: string | number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   modelValue: '',
-  type: Type.Text
+  type: 'text'
 });
 
 const emit = defineEmits<{ 'update:modelValue': [value: string | number] }>();
