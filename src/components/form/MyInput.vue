@@ -7,7 +7,7 @@
 
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, type WritableComputedRef } from 'vue';
 
 const enum Type {
   Text = 'text',
@@ -19,20 +19,19 @@ interface Props {
   id: string;
   name?: string;
   label: string;
-  type: Type;
-  value?: string;
+  type?: Type;
+  modelValue?: string | number;
 }
 
-const props = defineProps<Props>();
-const emit = defineEmits<{ input: [value: string]}>();
+const props = withDefaults(defineProps<Props>(), {
+  modelValue: '',
+  type: Type.Text
+});
 
-const innerValue = computed({
-  get: () => {
-    return props.value;
-  },
-  set: (value: string) => {
-    emit('input', value)
-  }
+const emit = defineEmits<{ 'update:modelValue': [value: string | number] }>();
+const innerValue: WritableComputedRef< string | number> = computed({
+  get: () => props.modelValue,
+  set: (value: string | number) => emit('update:modelValue', value)
 })
 </script>
 
