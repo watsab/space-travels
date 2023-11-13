@@ -11,7 +11,7 @@ import 'nprogress/nprogress.css';
 import store from '@/store';
 
 const app = createApp(App)
-app.use(router);
-app.provide('store', store);
-app.directive('clickOutside', clickOutside);
-app.mount('#app')
+  .use(router)
+  .use(store)
+  .directive('clickOutside', clickOutside)
+  .mount('#app')
