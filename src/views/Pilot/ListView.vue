@@ -1,10 +1,18 @@
 <template>
   <h2>Liste des pilotes</h2>
 
-  <form>
-    <label for="search">Recherche un pilote :</label>
-    <input id="search" name="search" v-model.trim="searchValue"/>
-  </form>
+  <div class="header">
+    <form>
+      <div class="form-group">
+        <label for="search">Recherche un pilote :</label>
+        <input id="search" name="search" v-model.trim="searchValue"/>
+      </div>
+    </form>
+
+    <div>
+      <router-link :to="{name: 'pilotCreate'}">Créer un nouveau pilote</router-link>
+    </div>
+  </div>
 
   <table>
     <thead>
@@ -66,26 +74,16 @@ watch(searchValue, (value: string) => {
 </script>
 
 <style scoped>
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
 .profile-picture {
   border-radius: 50%;
   width: 80px;
   height: 80px;
   object-fit: contain;
 }
-
-form {
-  display: flex;
-  align-items: center;
-
-  label {
-    margin-right: 20px;
-  }
-  input {
-    background-color: var(--vt-c-white);
-    padding: 5px;
-    border-radius: 5px;
-  }
-}
-
 
 </style>

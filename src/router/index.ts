@@ -10,6 +10,7 @@ import NotFound from '@/components/NotFound.vue';
 import NetworkError from '@/components/NetworkError.vue';
 import nProgress from 'nprogress';
 import { store } from '@/store';
+import PilotCreateView from '@/views/Pilot/CreateView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -73,6 +74,11 @@ const router = createRouter({
           name: 'pilotDetails',
           props: (route) => ({ id: Number.parseInt(route.params.id as string, 10) }),
           component: PilotDetailsView
+        },
+        {
+          path: 'new',
+          name: 'pilotCreate',
+          component: PilotCreateView
         }
       ]
     },

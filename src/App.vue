@@ -16,6 +16,9 @@
   </MyHeader>
 
   <div class="container">
+    <div v-if="flashMessage && flashMessage.length > 0" class="flash-message">
+      {{ flashMessage }}
+    </div>
     <RouterView />
   </div>
 </template>
@@ -23,6 +26,8 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import MyHeader from '@/components/MyHeader.vue';
+import { computed } from 'vue';
+import { useStore } from '@/store';
 
 const menuItems = [
   {
@@ -41,7 +46,12 @@ const menuItems = [
     label: 'A propos',
     route: { name: 'about' }
   }
-]
+];
+
+const store = useStore();
+const flashMessage = computed(() => {
+  return store.state.app.flashMessage;
+});
 
 </script>
 
@@ -65,9 +75,36 @@ const menuItems = [
   }
 }
 
+@keyframes fade {
+   0%,
+   100% {
+     background-color: transparent;
+     border: solid 1px transparent;
+   }
+   20% {
+     background-color: var(--vt-c-indigo);
+     border: solid 1px var(--vt-c-divider-light-1);
+   }
+ }
+
 .container {
   height: 100vh;
   padding-top: 120px;
   overflow: auto;
+
+  position: relative;
+
+  & .flash-message {
+    position: fixed;
+    top: 115px;
+    right: 25px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: var(--vt-c-white-mute);
+
+    animation-name: fade;
+    animation-duration: 3s;
+  }
+
 }
 </style>

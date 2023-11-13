@@ -7,11 +7,15 @@
     <div class="card-body">
       <slot name="body"></slot>
     </div>
+
+
+    <div class="card-footer">
+      <slot name="footer"></slot>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-
 </script>
 
 
@@ -29,7 +33,14 @@
   }
 
   & .card-body {
-    padding: 30px;
+    padding: 30px 0;
+  }
+
+  & .card-footer {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
   }
 }
 </style>
