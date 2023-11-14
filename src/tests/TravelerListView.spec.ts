@@ -2,7 +2,6 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import type { VueWrapper } from '@vue/test-utils';
 import ListView from '@/views/Traveler/ListView.vue';
 import { shallowMount } from '@vue/test-utils';
-import { createStore } from 'vuex'
 
 vi.mock('vue-router', () => ({
   useRoute: vi.fn(),
@@ -28,6 +27,8 @@ describe('Traveler/ListView', () => {
   let wrapper: VueWrapper<InstanceType<typeof ListView>>;
 
   beforeEach(() => {
+    vi.clearAllMocks();
+
     wrapper = shallowMount(ListView, {
       props: {
         page: 1

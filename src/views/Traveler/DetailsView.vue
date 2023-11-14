@@ -6,7 +6,7 @@
 import { useRouter } from 'vue-router';
 import { type Ref, ref, watchEffect } from 'vue';
 import type { Traveler } from '@/models/Traveler';
-import { useStore } from '@/store';
+import { getById } from '@/services/travelersManager';
 
 
 interface Props {
@@ -15,16 +15,19 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const store = useStore();
 const traveler: Ref<Traveler | null> = ref(null);
 
 watchEffect(async () => {
-  await store.dispatch('travelers/fetchTravelers');
-  traveler.value = store.getters['travelers/getById'](props.id) ?? null;
+  const { push } = useRouter();
+  try {
+    traveler.value = await getById(props.id);
+    if (!traveler.value) {
+      push({ name: 'notFound' });
+    }
 
-  if (!traveler.value) {
-    const { push } = useRouter();
-    push({ name: 'notFound' });
+  } catch (error) {
+    console.log(push);
+    push({name: 'networkError'});
   }
 })
 
