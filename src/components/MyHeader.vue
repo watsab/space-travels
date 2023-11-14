@@ -4,6 +4,10 @@
 
     <slot name="title"></slot>
 
+    <select v-model="locale">
+      <option value="fr">FR</option>
+      <option value="en">EN</option>
+    </select>
     <div class="nav-wrapper" v-click-outside="() => showNav = false">
       <MyButton @click="showNav = !showNav">Menu</MyButton>
 
@@ -26,18 +30,25 @@
 </template>
 
 <script setup lang="ts">
-import { type Ref, ref } from 'vue';
+import { type Ref, ref, watch } from 'vue';
 import MyButton from '@/components/MyButton.vue';
 // import Velocity from 'velocity-animate';
 import { gsap } from 'gsap';
+import { getGlobalI18n, updateCurrentLocale} from '@/i18n';
 
 interface Props {
   menuItems: any[];
 }
 
 defineProps<Props>()
+const globalI18n = getGlobalI18n();
 
 const showNav: Ref<boolean> = ref(false);
+const locale: Ref<string> = ref(globalI18n.global.locale);
+
+watch(locale, (value) => {
+  updateCurrentLocale(globalI18n, value);
+});
 
 const onBeforeEnter = (el: HTMLElement) => {
   el.style.right = '-150px';

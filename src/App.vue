@@ -11,7 +11,7 @@
     </template>
 
     <template v-slot:menu-item="{ item }: {item: { label: string; route: { name: string } } }">
-      <router-link :to="item.route">{{ item.label }}</router-link>
+      <router-link :to="item.route">{{ i18n.t(item.label) }}</router-link>
     </template>
   </MyHeader>
 
@@ -36,22 +36,25 @@ import { RouterView } from 'vue-router'
 import MyHeader from '@/components/MyHeader.vue';
 import { computed } from 'vue';
 import { useStore } from '@/store';
+import { useI18n } from 'vue-i18n';
+
+const i18n = useI18n();
 
 const menuItems = [
   {
-    label: 'Nos pilotes',
+    label: 'nav.pilots',
     route: { name: 'pilots' }
   },
   {
-    label: 'Nos vaisseaux',
+    label: 'nav.ships',
     route: { name: 'ships' }
   },
   {
-    label: 'Nos voyageurs',
+    label: 'nav.travelers',
     route: { name: 'travelers' }
   },
   {
-    label: 'A propos',
+    label: 'nav.about',
     route: { name: 'about' }
   }
 ];

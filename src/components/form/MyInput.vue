@@ -12,8 +12,8 @@
 
 <script setup lang="ts">
 import { computed, type WritableComputedRef } from 'vue';
-import { minLength as minLengthValidator, required as requiredValidator, email } from '@vuelidate/validators';
 import useVuelidate, { type ValidationRule} from '@vuelidate/core';
+import { useI18nValidators } from '@/composable/useI18nValidators';
 
 interface Props {
   id: string;
@@ -39,20 +39,20 @@ const innerValue: WritableComputedRef< string | number> = computed({
   set: (value: string | number) => emit('update:modelValue', value)
 });
 
-
+const i18Validators = useI18nValidators();
 const rules = computed(() => {
   const rules: { [key: string]: ValidationRule} = {};
 
   if (props.required) {
-    rules['required'] = requiredValidator
+    rules['required'] = i18Validators.required;
   }
 
   if (props.minLength) {
-    rules['minLength'] = minLengthValidator(props.minLength);
+    rules['minLength'] = i18Validators.minLength(props.minLength);
   }
 
   if (props.type === 'email') {
-    rules['email'] = email;
+    rules['email'] = i18Validators.email;
   }
 
   return {

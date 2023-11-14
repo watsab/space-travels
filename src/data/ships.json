@@ -2,24 +2,29 @@
   {
     "name": "La belle de Vénus",
     "slug": "la-belle-de-venus",
-    "pilotId": 1
+    "pilotId": 1,
+    "price": 15.20
   },
   {
     "name": "L'horizon de Jupiter",
-    "slug": "l-horizon-de-jupiter"
+    "slug": "l-horizon-de-jupiter",
+    "price": 49.20
   },
   {
     "name": "Le seigneur de Saturne",
     "slug": "le-seigneur-de-saturne",
-    "pilotId": 3
+    "pilotId": 3,
+    "price": 58.34
   },
   {
     "name": "Autour de Mars",
     "slug": "autour-de-mars",
-    "pilotId": 4
+    "pilotId": 4,
+    "price": 12.26
   },
   {
     "name": "Notre terre",
-    "slug": "notre-terre"
+    "slug": "notre-terre",
+    "price": 0.00
   }
 ]

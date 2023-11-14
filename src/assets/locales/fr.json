@@ -1,0 +1,15 @@
+{
+  "nav": {
+    "pilots": "Nos pilotes",
+    "travelers": "Nos voyageurs",
+    "ships": "Nos vaisseaux"
+  },
+  "forms": {
+    "validations": {
+      "required": "Ce champ est requis",
+      "minLength": "Le champ n'a pas la longueur requise",
+      "noWhiteSpace": "Ce champ ne peut pas contenir d'espace",
+      "firstnameAndLastname": "Veuillez saisir votre prénom ET nom"
+    }
+  }
+}

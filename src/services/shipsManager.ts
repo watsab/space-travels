@@ -9,6 +9,7 @@ const getAll = (): Ship[] => {
     return {
       name: ship.name,
       slug: ship.slug,
+      price: ship.price,
       pilot: pilots.find(({ id }) => ship.pilotId === id)
     }
   });

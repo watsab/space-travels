@@ -11,6 +11,7 @@
       <template #header>
         <th>Nom</th>
         <th>Pilote</th>
+        <th>Prix du billet</th>
         <th></th>
       </template>
       <template v-slot:row="{ item }: {item: Ship}">
@@ -19,6 +20,9 @@
         </td>
         <td>
           {{ item.pilot?.firstname }} {{ item.pilot?.lastname }}
+        </td>
+        <td>
+          {{ n(item.price, 'currency') }}
         </td>
         <td>
           <router-link :to="{name: 'shipDetails', params: { slug: item.slug }}">
@@ -37,6 +41,7 @@ import type { Ship } from '@/models/Ship';
 import MyInput from '@/components/form/MyInput.vue';
 import MyCheckbox from '@/components/form/MyCheckbox.vue';
 import MyDataTable from '@/components/MyDataTable.vue';
+import { useI18n } from 'vue-i18n';
 
 const store = useStore();
 
@@ -44,6 +49,8 @@ const searchValue = ref('');
 store.dispatch('ships/fetchShips');
 const ships = ref(store.state.ships.items);
 const withPilotsOnly = ref(false);
+
+const { n } = useI18n();
 
 const filterShips = () => {
   ships.value = store.state.ships.items

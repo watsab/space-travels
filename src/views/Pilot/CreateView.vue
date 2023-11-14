@@ -5,7 +5,7 @@
     </template>
     <template v-slot:body>
       <form ref="form" id="creationForm" @submit.prevent="submit" novalidate>
-        <MyInput id="firstname" label="Prénom" v-model="pilotData.firstname" required :validation-rules="rules.firstname"></MyInput>
+        <MyInput id="firstname" label="Prénom" v-model="pilotData.firstname" required :validation-rules="rules.firstname" :min-length="5"></MyInput>
         <MyInput id="lastname" label="Nom" v-model="pilotData.lastname" required :validation-rules="rules.lastname"></MyInput>
       </form>
     </template>
