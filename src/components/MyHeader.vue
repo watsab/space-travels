@@ -28,7 +28,8 @@
 <script setup lang="ts">
 import { type Ref, ref } from 'vue';
 import MyButton from '@/components/MyButton.vue';
-import Velocity from 'velocity-animate';
+// import Velocity from 'velocity-animate';
+import { gsap } from 'gsap';
 
 interface Props {
   menuItems: any[];
@@ -42,18 +43,25 @@ const onBeforeEnter = (el: HTMLElement) => {
   el.style.right = '-150px';
 };
 const onEnter = (el: HTMLElement, done: () => void) => {
-  Velocity(
-    el,
-    { right: 0},
-    { duration: 500, easing: 'easeOutCubic', complete: done}
-  );
+  gsap.to(el, {
+    x: -150
+  });
+  // Velocity(
+  //   el,
+  //   { right: 0},
+  //   { duration: 500, easing: 'easeOutCubic', complete: done}
+  // );
 };
 const onLeave = (el: HTMLElement, done: () => void) => {
-  Velocity(
-    el,
-    { right: '-150px'},
-    { duration: 250, easing: 'easeInCubic', complete: done}
-  );
+  gsap.to(el, {
+    x: 150
+  });
+
+  // Velocity(
+  //   el,
+  //   { right: '-150px'},
+  //   { duration: 250, easing: 'easeInCubic', complete: done}
+  // );
 };
 </script>
 
