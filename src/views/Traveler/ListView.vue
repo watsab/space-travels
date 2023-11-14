@@ -1,28 +1,29 @@
 <template>
-  <h2>Liste des voyageurs</h2>
+  <div>
+    <h2 key="title">Liste des voyageurs</h2>
 
+    <MyDataTable :items="travelers" key="table">
+      <template #header>
+        <th>Prénom Nom</th>
+        <th>Email</th>
+      </template>
+      <template v-slot:row="{ item }: {item: Traveler}">
+        <td>
+          {{ item.name }}
+        </td>
+        <td>
+          {{ item.email }}
+        </td>
+      </template>
+    </MyDataTable>
 
-  <MyDataTable :items="travelers">
-    <template #header>
-      <th>Prénom Nom</th>
-      <th>Email</th>
-    </template>
-    <template v-slot:row="{ item }: {item: Traveler}">
-      <td>
-        {{ item.name }}
-      </td>
-      <td>
-        {{ item.email }}
-      </td>
-    </template>
-  </MyDataTable>
-
-  <div class="pagination">
-    <div>
-      <router-link v-show="page > 1" :to="{name: 'travelers', query: { page: page - 1 }}" rel="prev">&#8592; Page précedente</router-link>
-    </div>
-    <div>
-      <router-link :to="{name: 'travelers', query: { page: page + 1 }}" rel="next">Page suivante &#8594;</router-link>
+    <div class="pagination" key="pagination">
+      <div>
+        <router-link v-show="page > 1" :to="{name: 'travelers', query: { page: page - 1 }}" rel="prev">&#8592; Page précedente</router-link>
+      </div>
+      <div>
+        <router-link :to="{name: 'travelers', query: { page: page + 1 }}" rel="next">Page suivante &#8594;</router-link>
+      </div>
     </div>
   </div>
 </template>

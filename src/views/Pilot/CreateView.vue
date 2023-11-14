@@ -1,5 +1,4 @@
 <template>
-
   <MyCard>
     <template v-slot:header>
       <h2>Créer un nouveau pilote</h2>

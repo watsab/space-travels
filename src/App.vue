@@ -16,12 +16,18 @@
   </MyHeader>
 
   <div class="container">
-    <transition>
+    <transition name="slide-down">
       <div v-if="flashMessage && flashMessage.length > 0" class="flash-message" ref="flash">
         {{ flashMessage }}
       </div>
     </transition>
-    <RouterView />
+
+
+    <router-view v-slot="{ Component }">
+      <transition name="slide-right" mode="out-in">
+        <component :is="Component" />
+      </transition>
+    </router-view>
   </div>
 </template>
 
@@ -114,29 +120,6 @@ const flashMessage = computed(() => {
     border-radius: 5px;
     background-color: var(--vt-c-indigo);
     color: var(--vt-c-white-mute);
-
-
-    &.v-enter-from, /* initial style */
-    &.v-leave-to {
-      opacity: 0;
-      transform: translateY(-20px);
-    }
-
-    &.v-enter-active,
-    &.v-leave-active { /* active style */
-      transition: all 250ms ease-in-out;
-    }
-
-    /*
-    &.v-leave-active {
-      animation: slide-up 250ms ease-in-out;
-    }
-    &.v-enter-active {
-      animation: slide-down 250ms ease-in-out;
-    }
-    */
   }
 }
-
-
 </style>

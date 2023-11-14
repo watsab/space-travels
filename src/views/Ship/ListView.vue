@@ -1,31 +1,33 @@
 <template>
-  <h2>Liste des vaisseaux</h2>
+  <div>
+    <h2>Liste des vaisseaux</h2>
 
-  <form>
-    <MyInput id="search" label="Rechercher un vaisseau :" v-model.trim="searchValue"/>
-    <MyCheckbox id="shipsWithPilots" label="Afficher les vaisseaux avec pilotes seulement" v-model="withPilotsOnly"/>
-  </form>
+    <form>
+      <MyInput id="search" label="Rechercher un vaisseau :" v-model.trim="searchValue"/>
+      <MyCheckbox id="shipsWithPilots" label="Afficher les vaisseaux avec pilotes seulement" v-model="withPilotsOnly"/>
+    </form>
 
-  <MyDataTable :items="ships">
-    <template #header>
-      <th>Nom</th>
-      <th>Pilote</th>
-      <th></th>
-    </template>
-    <template v-slot:row="{ item }: {item: Ship}">
-      <td>
-        {{ item.name }}
-      </td>
-      <td>
-        {{ item.pilot?.firstname }} {{ item.pilot?.lastname }}
-      </td>
-      <td>
-        <router-link :to="{name: 'shipDetails', params: { slug: item.slug }}">
-          Voir les détails
-        </router-link>
-      </td>
-    </template>
-  </MyDataTable>
+    <MyDataTable :items="ships">
+      <template #header>
+        <th>Nom</th>
+        <th>Pilote</th>
+        <th></th>
+      </template>
+      <template v-slot:row="{ item }: {item: Ship}">
+        <td>
+          {{ item.name }}
+        </td>
+        <td>
+          {{ item.pilot?.firstname }} {{ item.pilot?.lastname }}
+        </td>
+        <td>
+          <router-link :to="{name: 'shipDetails', params: { slug: item.slug }}">
+            Voir les détails
+          </router-link>
+        </td>
+      </template>
+    </MyDataTable>
+  </div>
 </template>
 
 <script setup lang="ts">

@@ -5,11 +5,11 @@
       <slot name="header"></slot>
     </tr>
     </thead>
-    <tbody>
-    <tr v-for="(item, index) in items" :key="index">
-      <slot name="row" :item="item"></slot>
-    </tr>
-    </tbody>
+    <transition-group tag="tbody" name="slide-up" appear>
+      <tr v-for="(item, index) in items" :key="index">
+        <slot name="row" :item="item"></slot>
+      </tr>
+    </transition-group>
   </table>
 </template>
 

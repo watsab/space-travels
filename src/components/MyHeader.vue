@@ -4,32 +4,32 @@
 
     <slot name="title"></slot>
 
-  <div class="nav-wrapper" v-click-outside="() => showNav = false">
-    <MyButton @click="showNav = !showNav">Menu</MyButton>
+    <div class="nav-wrapper" v-click-outside="() => showNav = false">
+      <MyButton @click="showNav = !showNav">Menu</MyButton>
 
-      <nav v-show="showNav" class="nav">
-        <ul>
-          <li v-for="(item, index) in menuItems" :key="index">
-            <slot name="menu-item" :item="item"></slot>
-          </li>
-        </ul>
-      </nav>
+      <transition name="slide-down">
+        <nav v-show="showNav" class="nav">
+          <ul>
+            <li v-for="(item, index) in menuItems" :key="index">
+              <slot name="menu-item" :item="item"></slot>
+            </li>
+          </ul>
+        </nav>
+      </transition>
     </div>
-
   </header>
 </template>
 
 <script setup lang="ts">
-  import { type Ref, ref } from 'vue';
-  import MyButton from '@/components/MyButton.vue';
+import { type Ref, ref } from 'vue';
+import MyButton from '@/components/MyButton.vue';
 
-  interface Props {
-    menuItems: any[];
-  }
+interface Props {
+  menuItems: any[];
+}
+defineProps<Props>()
 
-  defineProps<Props>()
-
-  const showNav: Ref<boolean> = ref(false);
+const showNav: Ref<boolean> = ref(false);
 </script>
 
 <style scoped>
