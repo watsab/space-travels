@@ -1,17 +1,52 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import type { VueWrapper } from '@vue/test-utils';
 import ListView from '@/views/Traveler/ListView.vue';
 import { shallowMount } from '@vue/test-utils';
+import { createStore } from 'vuex'
+
+vi.mock('vue-router', () => ({
+  useRoute: vi.fn(),
+  useRouter: vi.fn(() => ({
+    push: () => {}
+  }))
+}));
+
+const dispatch = vi.fn();
+vi.mock('@/store', () => ({
+  useStore: vi.fn(() => ({
+    state: {
+      travelers: {
+        items: []
+      }
+    },
+    dispatch,
+  })),
+}));
+
 
 describe('Traveler/ListView', () => {
   let wrapper: VueWrapper<InstanceType<typeof ListView>>;
 
   beforeEach(() => {
-    wrapper = shallowMount(ListView);
+    wrapper = shallowMount(ListView, {
+      props: {
+        page: 1
+      },
+      global: {
+        stubs: ['router-link']
+      }
+    });
   });
 
-
-  it.todo('The rendering matches the snapshot', () => {
+  it('The rendering matches the snapshot', () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
+
+  it('When the page is updated, it triggers the store to fetch the travelers', async () => {
+    await wrapper.setProps({
+      page: 2
+    });
+
+    expect(dispatch).toHaveBeenCalledOnce();
+  })
 })

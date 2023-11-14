@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
 import { computed, type ComputedRef, watch } from 'vue';
-import { onBeforeRouteLeave, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import nProgress from 'nprogress';
 import { useStore } from '@/store';
 import type { Traveler } from '@/models/Traveler';
@@ -57,11 +57,6 @@ watch(() => props.page, async (value) => {
 const travelers: ComputedRef<Traveler[]> = computed(() => {
   return store.state.travelers.items;
 })
-//
-// onBeforeRouteLeave(() => {
-//   return window.confirm('Vous êtes sur le point de quitter la page. Etes-vous sûr ?')
-// })
-
 </script>
 
 <style scoped>

@@ -1,0 +1,14 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Traveler/ListView > The rendering matches the snapshot 1`] = `
+"<h2 data-v-90230f27=\\"\\">Liste des voyageurs</h2>
+<my-data-table-stub data-v-90230f27=\\"\\" items=\\"\\"></my-data-table-stub>
+<div data-v-90230f27=\\"\\" class=\\"pagination\\">
+  <div data-v-90230f27=\\"\\">
+    <router-link-stub data-v-90230f27=\\"\\" to=\\"[object Object]\\" rel=\\"prev\\" style=\\"display: none;\\"></router-link-stub>
+  </div>
+  <div data-v-90230f27=\\"\\">
+    <router-link-stub data-v-90230f27=\\"\\" to=\\"[object Object]\\" rel=\\"next\\"></router-link-stub>
+  </div>
+</div>"
+`;
