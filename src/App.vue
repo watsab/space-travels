@@ -10,15 +10,17 @@
       </router-link>
     </template>
 
-    <template v-slot:menu-item="{ item }">
+    <template v-slot:menu-item="{ item }: {item: { label: string; route: { name: string } } }">
       <router-link :to="item.route">{{ item.label }}</router-link>
     </template>
   </MyHeader>
 
   <div class="container">
-    <div v-if="flashMessage && flashMessage.length > 0" class="flash-message">
-      {{ flashMessage }}
-    </div>
+    <transition>
+      <div v-if="flashMessage && flashMessage.length > 0" class="flash-message" ref="flash">
+        {{ flashMessage }}
+      </div>
+    </transition>
     <RouterView />
   </div>
 </template>
@@ -52,7 +54,6 @@ const store = useStore();
 const flashMessage = computed(() => {
   return store.state.app.flashMessage;
 });
-
 </script>
 
 <style scoped>
@@ -75,17 +76,28 @@ const flashMessage = computed(() => {
   }
 }
 
-@keyframes fade {
-   0%,
-   100% {
-     background-color: transparent;
-     border: solid 1px transparent;
-   }
-   20% {
-     background-color: var(--vt-c-indigo);
-     border: solid 1px var(--vt-c-divider-light-1);
-   }
- }
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
 
 .container {
   height: calc(100vh - 100px);
@@ -100,11 +112,31 @@ const flashMessage = computed(() => {
     right: 25px;
     padding: 10px 20px;
     border-radius: 5px;
+    background-color: var(--vt-c-indigo);
     color: var(--vt-c-white-mute);
 
-    animation-name: fade;
-    animation-duration: 3s;
-  }
 
+    &.v-enter-from, /* initial style */
+    &.v-leave-to {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+
+    &.v-enter-active,
+    &.v-leave-active { /* active style */
+      transition: all 250ms ease-in-out;
+    }
+
+    /*
+    &.v-leave-active {
+      animation: slide-up 250ms ease-in-out;
+    }
+    &.v-enter-active {
+      animation: slide-down 250ms ease-in-out;
+    }
+    */
+  }
 }
+
+
 </style>
