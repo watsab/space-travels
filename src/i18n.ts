@@ -45,7 +45,7 @@ export const setupI18n = async (options = {}): Promise<I18n> => {
 }
 
 
-export const updateCurrentLocale =  async (i18n: any, locale: string) => {
+export const updateCurrentLocale =  async (i18n: I18n<{}, {}, {}, string, false>, locale: string) => {
   if (!i18n.global.availableLocales.includes(locale)) {
     await loadLocaleMessages(i18n, locale)
   }
@@ -54,7 +54,7 @@ export const updateCurrentLocale =  async (i18n: any, locale: string) => {
   setI18nLanguage(i18n, locale)
 }
 
-const setI18nLanguage = (i18n: any, locale: string) => {
+const setI18nLanguage = (i18n: I18n<{}, {}, {}, string, false>, locale: string) => {
   i18n.global.locale.value = locale;
   document?.querySelector('html')?.setAttribute('lang', locale);
 
