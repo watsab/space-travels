@@ -1,4 +1,4 @@
-import { helpers } from '@vuelidate/validators/dist/index';
+import { helpers } from '@vuelidate/validators';
 
 export const hasWhiteSpace = helpers.withMessage(
   'Veuillez saisir votre prénom et votre nom',

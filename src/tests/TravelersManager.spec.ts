@@ -2,11 +2,10 @@ import { describe, it, expect, vi } from 'vitest';
 import { Response } from 'happy-dom';
 import { getById } from '@/services/travelersManager';
 import type { Mock } from '@vitest/spy';
-import type IResponseBody from 'happy-dom/lib/fetch/types/IResponseBody';
 
-const mocks: { response: { body: IResponseBody, init: {status: number}},  fetch: Mock} = vi.hoisted(() => ({
+const mocks: { response: { body: undefined, init: {status: number}},  fetch: Mock} = vi.hoisted(() => ({
   response: {
-    body: {} as IResponseBody,
+    body: undefined,
     init: {
       status: 200
     }

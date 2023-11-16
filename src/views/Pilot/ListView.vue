@@ -10,6 +10,7 @@
     </form>
 
     <div>
+
       <router-link :to="{name: 'pilotCreate'}">Créer un nouveau pilote</router-link>
     </div>
   </div>
@@ -19,6 +20,7 @@
       <th></th>
       <th>Nom</th>
       <th>Prénom</th>
+      <th></th>
       <th></th>
     </template>
     <template v-slot:row="{ item }: { item: Pilot }">
@@ -34,6 +36,10 @@
       <td>
         <router-link :to="{name: 'pilotDetails', params: { id: item.id }}">Voir les détails</router-link>
       </td>
+      <td>
+        <MyButton v-if="item.isInDB" @click="removeFromDb(item)">Supprimer d'IndexedDB</MyButton>
+        <MyButton v-else @click="addToDB(item)">Enregistrer dans IndexedDB</MyButton>
+      </td>
     </template>
   </MyDataTable>
 </template>
@@ -43,6 +49,8 @@ import { useStore } from '@/store';
 import { ref, watch } from 'vue';
 import MyDataTable from '@/components/MyDataTable.vue';
 import type { Pilot } from '@/models/Pilot';
+import MyButton from '@/components/MyButton.vue';
+import { getPilot, addPilot, removePilot, getDatabase } from '@/services/indexedDb';
 
 const store = useStore();
 store.dispatch('pilots/fetchPilots');
@@ -69,6 +77,42 @@ watch(searchValue, (value: string) => {
     return 0;
   });
 });
+
+watch(pilots, async (value: Pilot) => {
+  pilots.value = await Promise.all(value.map(async (pilot: Pilot) => {
+    pilot.isInDB = await isInDB(pilot);
+  }));
+});
+
+const isInDB = async (pilot: Pilot): Promise<boolean> => {
+  const db = await getDatabase();
+  return !!await getPilot(db, pilot.id);
+};
+
+const removeFromDb = async (pilot: Pilot) => {
+  const db = await getDatabase();
+  try {
+    await removePilot(db, pilot);
+    store.commit('app/setFlashMessage', 'Pilote supprimé d\'IndexedDB')
+    pilot.isInDB = false;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+
+const addToDB = async (pilot: Pilot) => {
+  const db = await getDatabase();
+  try {
+    await addPilot(db, pilot);
+    store.commit('app/setFlashMessage', 'Pilote ajouté à IndexedDB')
+    pilot.isInDB = true;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
 </script>
 
 <style scoped>

@@ -116,7 +116,7 @@ fieldset {
   margin: 0;
   padding: 0;
 
-  legend {
+  & legend {
     font-size: 1.2rem;
     font-weight: 700;
     margin-bottom: 15px;

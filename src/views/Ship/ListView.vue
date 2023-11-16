@@ -39,9 +39,10 @@ import MyDataTable from '@/components/MyDataTable.vue';
 const store = useStore();
 
 const searchValue = ref('');
-store.dispatch('ships/fetchShips');
+// store.dispatch('ships/fetchShips');
 const ships = ref(store.state.ships.items);
 const withPilotsOnly = ref(false);
+
 
 const filterShips = () => {
   ships.value = store.state.ships.items

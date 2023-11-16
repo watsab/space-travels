@@ -18,7 +18,7 @@ import useVuelidate, { type ValidationRule} from '@vuelidate/core';
 interface Props {
   id: string;
   label: string;
-  validationRules?: { [key: string]: (value: any) => ValidationRule };
+  validationRules?: { [key: string]: ValidationRule };
   name?: string;
   type?: string;
   modelValue?: string | number;
