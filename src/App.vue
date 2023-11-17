@@ -10,8 +10,9 @@
       </router-link>
     </template>
 
-    <template v-slot:menu-item="{ item }">
-      <router-link :to="item.route">{{ item.label }}</router-link>
+    <template v-slot:menu-item="{ item }: { item: {label: string; route?: {name: string}; action?: () => void}}">
+      <router-link v-if="item.route" :to="item.route">{{ item.label }}</router-link>
+      <router-link v-else-if="item.action" to="#" @click="item.action">{{ item.label }}</router-link>
     </template>
   </MyHeader>
 
@@ -26,33 +27,54 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import MyHeader from '@/components/MyHeader.vue';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useStore } from '@/store';
-
-const menuItems = [
-  {
-    label: 'Nos pilotes',
-    route: { name: 'pilots' }
-  },
-  {
-    label: 'Nos vaisseaux',
-    route: { name: 'ships' }
-  },
-  {
-    label: 'Nos voyageurs',
-    route: { name: 'travelers' }
-  },
-  {
-    label: 'A propos',
-    route: { name: 'about' }
-  }
-];
 
 const store = useStore();
 const flashMessage = computed(() => {
   return store.state.app.flashMessage;
 });
 
+
+const menuItems = computed(() => {
+  const items = [
+    {
+      label: 'Nos pilotes',
+      route: { name: 'pilots' }
+    },
+    {
+      label: 'Nos vaisseaux',
+      route: { name: 'ships' }
+    },
+    {
+      label: 'Nos voyageurs',
+      route: { name: 'travelers' }
+    },
+    {
+      label: 'A propos',
+      route: { name: 'about' }
+    }
+  ];
+
+  if (store.getters['auth/loggedIn']) {
+    items.push({
+      label: 'Se déconnecter',
+      action: logout
+    })
+  } else {
+    items.push({
+      label: 'Se connecter',
+      route: { name: 'login' }
+    })
+  }
+
+  return items;
+});
+
+
+const logout = () => {
+  store.dispatch('auth/logout');
+}
 </script>
 
 <style scoped>
@@ -62,6 +84,7 @@ const flashMessage = computed(() => {
   top: 0;
   left: 0;
   width: 100vw;
+  z-index: 1;
 
   & .logo {
     width: auto;

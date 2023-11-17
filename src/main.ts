@@ -10,6 +10,12 @@ import 'nprogress/nprogress.css';
 
 import { store, key } from '@/store';
 
+const userString = localStorage.getItem('user');
+if (userString) {
+  const userData = JSON.parse(userString);
+  store.commit('auth/setUserData', userData);
+}
+
 createApp(App)
   .use(router)
   .use(store, key)
